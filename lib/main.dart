@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:christmas_carols/music_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -33,17 +34,55 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   //음원 리스트
-  List<String> lstTitle = [
-    'all-I-want-for-christmas',
-    'christmas-bells',
-    'christmas-holidays_medium',
-    'jingle-bells-orchestra',
-    'joyful-jingle',
-    'last-christmas',
-    'new-year-ambient-background',
-    'o-holy-night',
-    'we-wish-you-a-merry-christmas',
-    'winter-forest-happy-merry-christmas',
+  final musicData = [
+    {
+      'title': 'all I want for christmas',
+      'artist': 'Mariah Carey',
+      'duration': '4:01',
+      'albumImg': 'assets/images/all_i_want_for_cristmas.jpeg',
+    },
+    {
+      'title': 'christmas bells',
+      'artist': 'James Arthur',
+      'duration': '4:06',
+      'albumImg': 'assets/images/christmasBells.jpeg',
+    },
+    {
+      'title': 'christmas holidays medium',
+      'artist': 'Mariah Carey',
+      'duration': '3:00',
+      'albumImg': 'assets/images/all_i_want_for_cristmas.jpeg',
+    },
+    {
+      'title': 'jingle bells orchestra',
+      'artist': 'Mariah Carey',
+      'duration': '00:56',
+      'albumImg': 'assets/images/JingleBells.png',
+    },
+    {
+      'title': 'joyful jingle',
+      'artist': 'Mariah Carey',
+      'duration': '00:56',
+      'albumImg': 'assets/images/JingleBells.png',
+    },
+    {
+      'title': 'last christmas',
+      'artist': 'wham',
+      'duration': '00:56',
+      'albumImg': 'assets/images/lastChristmas.jpeg',
+    },
+    {
+      'title': 'new year ambient background',
+      'artist': 'Mariah Carey',
+      'duration': '00:56',
+      'albumImg': 'assets/images/all_i_want_for_cristmas.jpeg',
+    },
+    {
+      'title': 'o holy night',
+      'artist': 'Mariah Carey',
+      'duration': '00:56',
+      'albumImg': 'assets/images/all_i_want_for_cristmas.jpeg',
+    },
   ];
 
   @override
@@ -78,6 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   int currentPlayIndex = -1;
 
+  changeIndex(index) {
+    setState(() {
+      currentPlayIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           )
         ],
+        shape: const Border(bottom: BorderSide(color: Colors.white, width: 1)),
       ),
       body: Stack(children: [
         SizedBox(
@@ -120,21 +166,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         //음원 재생 UI
         ListView.builder(
-          itemCount: lstTitle.length,
+          itemCount: musicData.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               color: Colors.white.withOpacity(0.3),
-              child: ListTile(
-                onTap: () {
-                  assetsAudioPlayer.playlistPlayAtIndex(index);
-                  setState(() {
-                    currentPlayIndex = index;
-                  });
-                },
+              child: MusicTile(
                 title: getTitle(index),
-                shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.circular(10)),
+                artist: musicData[index]['artist'] as String,
+                duration: musicData[index]['duration'] as String,
+                albumImg: musicData[index]['albumImg'] as String,
+                index: index,
+                assetsAudioPlayer: assetsAudioPlayer,
+                changeIndex: changeIndex,
               ),
             );
           },
@@ -143,16 +186,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget getTitle(int index) {
+  getTitle(int index) {
     if (currentPlayIndex == index) {
       return Text(
-        lstTitle[index],
+        musicData[index]['title'] as String,
         style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
       );
     }
 
     return Text(
-      lstTitle[index],
+      musicData[index]['title'] as String,
       style: const TextStyle(color: Colors.white),
     );
   }
