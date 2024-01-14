@@ -20,3 +20,4 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## flutter app
+<img width="499" alt="music_player" src="https://github.com/alstjs1207/music_player/assets/43664181/ceb41be5-b937-41bd-9129-aa9e47fb7423">
